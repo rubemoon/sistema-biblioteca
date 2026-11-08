@@ -146,7 +146,7 @@ static void consLivro(Biblioteca *bib)
     char autor[80];
     Livro *aux;
 
-    printf("1 - Por codigo\n2 - Por autor\nOpcao: ");
+    printf("1 - Por codigo\n2 - Por autor\n3 - Todos\nOpcao: ");
     scanf("%d", &op);
 
     if (op == 1) {
@@ -172,6 +172,16 @@ static void consLivro(Biblioteca *bib)
 
         if (achou == 0)
             printf("Livro nao encontrado\n");
+    } else if (op == 3) {
+        if (bib->livros == NULL) {
+            printf("Nenhum livro cadastrado\n");
+            return;
+        }
+
+        for (aux = bib->livros; aux != NULL; aux = aux->next) {
+            mostraLivro(aux);
+            printf("\n");
+        }
     } else
         printf("Opcao invalida\n");
 }
