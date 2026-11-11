@@ -37,6 +37,28 @@ static Usuario *buscaUsuario(Biblioteca *bib, char email[])
     return NULL;
 }
 
+int leInteiro(int *valor)
+{
+    int caractere;
+
+    if (scanf("%d", valor) == 1)
+        return 1;
+
+    if (feof(stdin))
+        return 0;
+
+    while ((caractere = getchar()) != '\n' && caractere != EOF)
+        ;
+
+    printf("Entrada invalida\n");
+    return 0;
+}
+
+static int leTexto(char texto[80])
+{
+    return scanf("%79s", texto) == 1;
+}
+
 static void mostraLivro(Livro *livro)
 {
     printf("Codigo: %d\n", livro->id);
@@ -60,21 +82,37 @@ static void mostraUsuario(Usuario *usuario)
 
 static void cadLivro(Biblioteca *bib)
 {
-    Livro *novo = (Livro *)malloc(sizeof(Livro));
+    char titulo[80];
+    char autor[80];
+    int ano;
+    Livro *novo;
 
+    printf("Titulo: ");
+    if (!leTexto(titulo))
+        return;
+
+    printf("Autor: ");
+    if (!leTexto(autor))
+        return;
+
+    printf("Ano: ");
+    if (!leInteiro(&ano))
+        return;
+    if (ano <= 0) {
+        printf("Ano invalido\n");
+        return;
+    }
+
+    novo = (Livro *)malloc(sizeof(Livro));
     if (novo == NULL) {
         printf("Erro de memoria\n");
         return;
     }
 
-    printf("Titulo: ");
-    scanf("%79s", novo->titulo);
-    printf("Autor: ");
-    scanf("%79s", novo->autor);
-    printf("Ano: ");
-    scanf("%d", &novo->ano);
-
     novo->id = bib->nextid;
+    strcpy(novo->titulo, titulo);
+    strcpy(novo->autor, autor);
+    novo->ano = ano;
     novo->status = 0;
     novo->email[0] = '\0';
     novo->next = NULL;
@@ -96,25 +134,30 @@ static void cadLivro(Biblioteca *bib)
 static void cadUsuario(Biblioteca *bib)
 {
     char email[80];
+    char nome[80];
+    Usuario *novo;
 
     printf("Email: ");
-    scanf("%79s", email);
+    if (!leTexto(email))
+        return;
 
     if (buscaUsuario(bib, email) != NULL) {
         printf("Usuario ja cadastrado\n");
         return;
     }
 
-    Usuario *novo = (Usuario *)malloc(sizeof(Usuario));
+    printf("Nome: ");
+    if (!leTexto(nome))
+        return;
 
+    novo = (Usuario *)malloc(sizeof(Usuario));
     if (novo == NULL) {
         printf("Erro de memoria\n");
         return;
     }
 
     strcpy(novo->email, email);
-    printf("Nome: ");
-    scanf("%79s", novo->nome);
+    strcpy(novo->nome, nome);
 
     novo->next = bib->usuarios;
     bib->usuarios = novo;
@@ -128,8 +171,11 @@ void menuCadastro(Biblioteca *bib)
 
     while (op != 0) {
         printf("\n1 - Livros\n2 - Usuarios\n0 - Voltar\nOpcao: ");
-        if (scanf("%d", &op) != 1)
-            return;
+        if (!leInteiro(&op)) {
+            if (feof(stdin))
+                return;
+            continue;
+        }
 
         switch (op) {
             case 1: cadLivro(bib); break;
@@ -147,11 +193,13 @@ static void consLivro(Biblioteca *bib)
     Livro *aux;
 
     printf("1 - Por codigo\n2 - Por autor\n3 - Todos\nOpcao: ");
-    scanf("%d", &op);
+    if (!leInteiro(&op))
+        return;
 
     if (op == 1) {
         printf("Codigo: ");
-        scanf("%d", &id);
+        if (!leInteiro(&id))
+            return;
         aux = buscaLivro(bib, id);
 
         if (aux == NULL)
@@ -160,7 +208,8 @@ static void consLivro(Biblioteca *bib)
             mostraLivro(aux);
     } else if (op == 2) {
         printf("Autor: ");
-        scanf("%79s", autor);
+        if (!leTexto(autor))
+            return;
 
         for (aux = bib->livros; aux != NULL; aux = aux->next) {
             if (strcmp(aux->autor, autor) == 0) {
@@ -193,11 +242,13 @@ static void consUsuario(Biblioteca *bib)
     Usuario *aux;
 
     printf("1 - Por email\n2 - Por nome\nOpcao: ");
-    scanf("%d", &op);
+    if (!leInteiro(&op))
+        return;
 
     if (op == 1) {
         printf("Email: ");
-        scanf("%79s", dado);
+        if (!leTexto(dado))
+            return;
         aux = buscaUsuario(bib, dado);
 
         if (aux == NULL)
@@ -206,7 +257,8 @@ static void consUsuario(Biblioteca *bib)
             mostraUsuario(aux);
     } else if (op == 2) {
         printf("Nome: ");
-        scanf("%79s", dado);
+        if (!leTexto(dado))
+            return;
 
         for (aux = bib->usuarios; aux != NULL; aux = aux->next) {
             if (strcmp(aux->nome, dado) == 0) {
@@ -229,7 +281,8 @@ static void consEmprestimos(Biblioteca *bib)
     Livro *aux;
 
     printf("Email: ");
-    scanf("%79s", email);
+    if (!leTexto(email))
+        return;
 
     if (buscaUsuario(bib, email) == NULL) {
         printf("Usuario nao cadastrado\n");
@@ -254,8 +307,11 @@ void menuConsulta(Biblioteca *bib)
 
     while (op != 0) {
         printf("\n1 - Livros\n2 - Usuarios\n3 - Emprestimos\n0 - Voltar\nOpcao: ");
-        if (scanf("%d", &op) != 1)
-            return;
+        if (!leInteiro(&op)) {
+            if (feof(stdin))
+                return;
+            continue;
+        }
 
         switch (op) {
             case 1: consLivro(bib); break;
@@ -273,7 +329,8 @@ static void alteraLivro(Biblioteca *bib)
     Livro *livro;
 
     printf("Codigo: ");
-    scanf("%d", &id);
+    if (!leInteiro(&id))
+        return;
     livro = buscaLivro(bib, id);
 
     if (livro == NULL) {
@@ -282,20 +339,28 @@ static void alteraLivro(Biblioteca *bib)
     }
 
     printf("1 - Titulo\n2 - Autor\n3 - Ano\n0 - Voltar\nOpcao: ");
-    scanf("%d", &op);
+    if (!leInteiro(&op))
+        return;
 
     switch (op) {
         case 1:
             printf("Novo titulo: ");
-            scanf("%79s", livro->titulo);
+            if (!leTexto(livro->titulo))
+                return;
             break;
         case 2:
             printf("Novo autor: ");
-            scanf("%79s", livro->autor);
+            if (!leTexto(livro->autor))
+                return;
             break;
         case 3:
             printf("Novo ano: ");
-            scanf("%d", &livro->ano);
+            if (!leInteiro(&livro->ano))
+                return;
+            if (livro->ano <= 0) {
+                printf("Ano invalido\n");
+                return;
+            }
             break;
         case 0:
             return;
@@ -313,7 +378,8 @@ static void alteraUsuario(Biblioteca *bib)
     Usuario *usuario;
 
     printf("Email: ");
-    scanf("%79s", email);
+    if (!leTexto(email))
+        return;
     usuario = buscaUsuario(bib, email);
 
     if (usuario == NULL) {
@@ -322,7 +388,8 @@ static void alteraUsuario(Biblioteca *bib)
     }
 
     printf("Novo nome: ");
-    scanf("%79s", usuario->nome);
+    if (!leTexto(usuario->nome))
+        return;
     printf("Usuario atualizado\n");
 }
 
@@ -332,8 +399,11 @@ void menuAtualizacao(Biblioteca *bib)
 
     while (op != 0) {
         printf("\n1 - Livros\n2 - Usuarios\n0 - Voltar\nOpcao: ");
-        if (scanf("%d", &op) != 1)
-            return;
+        if (!leInteiro(&op)) {
+            if (feof(stdin))
+                return;
+            continue;
+        }
 
         switch (op) {
             case 1: alteraLivro(bib); break;
@@ -351,7 +421,8 @@ static void removeLivro(Biblioteca *bib)
     Livro *ant = NULL;
 
     printf("Codigo: ");
-    scanf("%d", &id);
+    if (!leInteiro(&id))
+        return;
 
     while (aux != NULL && aux->id != id) {
         ant = aux;
@@ -385,7 +456,8 @@ static void removeUsuario(Biblioteca *bib)
     Livro *livro;
 
     printf("Email: ");
-    scanf("%79s", email);
+    if (!leTexto(email))
+        return;
 
     while (aux != NULL && strcmp(aux->email, email) != 0) {
         ant = aux;
@@ -420,8 +492,11 @@ void menuExclusao(Biblioteca *bib)
 
     while (op != 0) {
         printf("\n1 - Livros\n2 - Usuarios\n0 - Voltar\nOpcao: ");
-        if (scanf("%d", &op) != 1)
-            return;
+        if (!leInteiro(&op)) {
+            if (feof(stdin))
+                return;
+            continue;
+        }
 
         switch (op) {
             case 1: removeLivro(bib); break;
@@ -439,7 +514,8 @@ void emprestar(Biblioteca *bib)
     Livro *livro;
 
     printf("Codigo: ");
-    scanf("%d", &id);
+    if (!leInteiro(&id))
+        return;
     livro = buscaLivro(bib, id);
 
     if (livro == NULL) {
@@ -453,7 +529,8 @@ void emprestar(Biblioteca *bib)
     }
 
     printf("Email: ");
-    scanf("%79s", email);
+    if (!leTexto(email))
+        return;
 
     if (buscaUsuario(bib, email) == NULL) {
         printf("Usuario nao cadastrado\n");
@@ -471,7 +548,8 @@ void devolver(Biblioteca *bib)
     Livro *livro;
 
     printf("Codigo: ");
-    scanf("%d", &id);
+    if (!leInteiro(&id))
+        return;
     livro = buscaLivro(bib, id);
 
     if (livro == NULL) {

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "biblioteca.h"
 
-/* Uso de LLM: apoio na estatistica implementada em biblioteca.c */
+/* Uso de LLM: apoio na estatistica e validacao de entradas em biblioteca.c */
 static void mostraBanner(void)
 {
     printf("\n=================================\n");
@@ -29,8 +29,11 @@ int main(void)
         printf("0 - Sair\n");
         printf("Opcao: ");
 
-        if (scanf("%d", &op) != 1)
-            break;
+        if (!leInteiro(&op)) {
+            if (feof(stdin))
+                break;
+            continue;
+        }
 
         switch (op) {
             case 1: menuCadastro(&bib); break;

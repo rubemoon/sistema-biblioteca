@@ -27,6 +27,7 @@ struct tbiblioteca {
 typedef struct tbiblioteca Biblioteca;
 
 void initBib(Biblioteca *bib);
+int leInteiro(int *valor);
 void menuCadastro(Biblioteca *bib);
 void menuConsulta(Biblioteca *bib);
 void menuAtualizacao(Biblioteca *bib);
