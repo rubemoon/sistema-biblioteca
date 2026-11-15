@@ -7,22 +7,26 @@ Trabalho final de Estrutura de Dados I em C
 ## Funcionalidades
 
 - Cadastro, consulta, atualização e exclusão de livros e usuários
-- Consulta de empréstimos ativos
+- Busca de livros por código ou autor
+- Busca de usuários por email ou nome
+- Listagem de todos os livros
 - Empréstimo e devolução
-- Código sequencial para os livros
-- Estatística de usuário com mais empréstimos ativos
+- Consulta dos empréstimos ativos de um usuário
+- Estatística do usuário com mais empréstimos ativos
 
-## Implementação
+## Estruturas utilizadas
 
-Listas encadeadas com alocação dinâmica e livros ordenados por código
+Livros e usuários são armazenados em listas simplesmente encadeadas com alocação dinâmica
+
+Os livros são mantidos em ordem de código
 
 Os dados ficam em memória e são perdidos ao sair
 
-Entradas de texto sem espaços, conforme o enunciado
+As entradas de texto não devem conter espaços, conforme o enunciado
 
 ## Compilar e executar
 
-Na pasta do projeto:
+Na pasta do projeto, compile com o comando apresentado nas aulas:
 
 ```sh
 gcc -Wall main.c biblioteca.c -o biblioteca
@@ -32,4 +36,20 @@ Execute:
 
 ```sh
 ./biblioteca
+```
+
+## Exemplo de uso
+
+Escolha `1 - Cadastro` e depois `1 - Livros` para cadastrar um livro
+
+Use `2 - Consulta`, `1 - Livros` e `3 - Todos` para listar os livros
+
+Escolha `7 - Estatisticas` para ver o usuário com mais empréstimos ativos
+
+## Testes
+
+Execute os testes automatizados com:
+
+```sh
+sh tests/teste_sistema.sh
 ```
