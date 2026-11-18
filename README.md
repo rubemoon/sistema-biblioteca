@@ -45,11 +45,3 @@ Escolha `1 - Cadastro` e depois `1 - Livros` para cadastrar um livro
 Use `2 - Consulta`, `1 - Livros` e `3 - Todos` para listar os livros
 
 Escolha `7 - Estatisticas` para ver o usuário com mais empréstimos ativos
-
-## Testes
-
-Execute os testes automatizados com:
-
-```sh
-sh tests/teste_sistema.sh
-```

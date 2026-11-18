@@ -325,7 +325,7 @@ void menuConsulta(Biblioteca *bib)
 
 static void alteraLivro(Biblioteca *bib)
 {
-    int id, op;
+    int id, op, novoAno;
     Livro *livro;
 
     printf("Codigo: ");
@@ -355,12 +355,13 @@ static void alteraLivro(Biblioteca *bib)
             break;
         case 3:
             printf("Novo ano: ");
-            if (!leInteiro(&livro->ano))
+            if (!leInteiro(&novoAno))
                 return;
-            if (livro->ano <= 0) {
+            if (novoAno <= 0) {
                 printf("Ano invalido\n");
                 return;
             }
+            livro->ano = novoAno;
             break;
         case 0:
             return;

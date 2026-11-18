@@ -2,23 +2,15 @@
 #include "biblioteca.h"
 
 /* Uso de LLM: apoio na estatistica e validacao de entradas em biblioteca.c */
-static void mostraBanner(void)
-{
-    printf("\n=================================\n");
-    printf("      SISTEMA DE BIBLIOTECA\n");
-    printf("=================================\n");
-}
-
 int main(void)
 {
     Biblioteca bib;
     int op = -1;
 
     initBib(&bib);
-    mostraBanner();
 
     while (op != 0) {
-        printf("\n=== Biblioteca ===\n");
+        printf("\nSISTEMA DE BIBLIOTECA\n");
         printf("1 - Cadastro\n");
         printf("2 - Consulta\n");
         printf("3 - Atualizacao\n");
