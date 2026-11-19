@@ -45,3 +45,17 @@ Escolha `1 - Cadastro` e depois `1 - Livros` para cadastrar um livro
 Use `2 - Consulta`, `1 - Livros` e `3 - Todos` para listar os livros
 
 Escolha `7 - Estatisticas` para ver o usuário com mais empréstimos ativos
+
+## Demonstração do sistema
+
+Menu principal com as opções disponíveis
+
+![Menu principal do sistema](docs/imagens/menu.png)
+
+Cadastro de um livro
+
+![Cadastro de um livro](docs/imagens/cadastro.png)
+
+Consulta dos dados de um livro
+
+![Consulta dos dados de um livro](docs/imagens/consulta.png)
