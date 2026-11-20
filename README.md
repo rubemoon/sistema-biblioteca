@@ -56,6 +56,30 @@ Cadastro de um livro
 
 ![Cadastro de um livro](docs/imagens/cadastro.png)
 
+Cadastro de um usuário
+
+![Cadastro de um usuário](docs/imagens/usuario.png)
+
 Consulta dos dados de um livro
 
 ![Consulta dos dados de um livro](docs/imagens/consulta.png)
+
+Listagem dos livros cadastrados
+
+![Listagem dos livros cadastrados](docs/imagens/listagem.png)
+
+Empréstimo de um livro
+
+![Empréstimo de um livro](docs/imagens/emprestimo.png)
+
+Consulta de um livro emprestado
+
+![Consulta de um livro emprestado](docs/imagens/livroemprestado.png)
+
+Devolução de um livro
+
+![Devolução de um livro](docs/imagens/devolucao.png)
+
+Estatísticas de empréstimos ativos
+
+![Estatísticas de empréstimos ativos](docs/imagens/estatisticas.png)
