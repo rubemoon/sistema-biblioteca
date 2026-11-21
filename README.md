@@ -22,7 +22,7 @@ Os livros são mantidos em ordem de código
 
 Os dados ficam em memória e são perdidos ao sair
 
-As entradas de texto não devem conter espaços, conforme o enunciado
+As entradas de texto não devem conter espaços
 
 ## Compilar e executar
 
@@ -40,11 +40,11 @@ Execute:
 
 ## Exemplo de uso
 
-Escolha `1 - Cadastro` e depois `1 - Livros` para cadastrar um livro
+Escolha <kbd>1 - Cadastro</kbd> e depois <kbd>1 - Livros</kbd> para cadastrar um livro
 
-Use `2 - Consulta`, `1 - Livros` e `3 - Todos` para listar os livros
+Use <kbd>2 - Consulta</kbd>, <kbd>1 - Livros</kbd> e <kbd>3 - Todos</kbd> para listar os livros
 
-Escolha `7 - Estatisticas` para ver o usuário com mais empréstimos ativos
+Escolha <kbd>7 - Estatisticas</kbd> para ver o usuário com mais empréstimos ativos
 
 ## Demonstração do sistema
 
